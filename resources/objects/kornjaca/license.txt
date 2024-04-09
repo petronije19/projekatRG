@@ -1,0 +1,11 @@
+Model Information:
+* title:	Sea Turtle
+* source:	https://sketchfab.com/3d-models/sea-turtle-b513759c230c4595aee10e660635ed12
+* author:	Antonio Rossini (https://sketchfab.com/Rox3d)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Sea Turtle" (https://sketchfab.com/3d-models/sea-turtle-b513759c230c4595aee10e660635ed12) by Antonio Rossini (https://sketchfab.com/Rox3d) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

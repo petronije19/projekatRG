@@ -29,8 +29,8 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 unsigned int loadCubemap(vector<std::string>& faces);
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1200;
+const unsigned int SCR_HEIGHT = 800;
 
 // camera
 
@@ -67,7 +67,7 @@ struct ProgramState {
     Camera camera;
     bool CameraMouseMovementUpdateEnabled = true;
     glm::vec3 backpackPosition = glm::vec3(0.0f);
-    float backpackScale = 1.0f;
+    float backpackScale = 0.5f;
     PointLight pointLight;
     DirLight dirLight;
     ProgramState()
@@ -237,12 +237,12 @@ int main() {
     unsigned int skyboxTexture;
     vector<std::string> faces
             {
-                    "resources/textures/skybox/skybox_px.jpg",
-                    "resources/textures/skybox/skybox_nx.jpg",
-                    "resources/textures/skybox/skybox_ny.jpg",
-                    "resources/textures/skybox/skybox_py.jpg",
-                    "resources/textures/skybox/skybox_pz.jpg",
-                    "resources/textures/skybox/skybox_nz.jpg"
+                    "resources/textures/skybox/left.png",
+                    "resources/textures/skybox/right.png",
+                    "resources/textures/skybox/top.png",
+                    "resources/textures/skybox/bottom.png",
+                    "resources/textures/skybox/front.png",
+                    "resources/textures/skybox/back.png"
             };
     skyboxTexture = loadCubemap(faces);
 
@@ -250,11 +250,27 @@ int main() {
     // -----------
     stbi_set_flip_vertically_on_load(false);
 
-    Model ourModel("resources/objects/shiba/scene.gltf");
+
+
+    //stbi_set_flip_vertically_on_load(true);
+
+    Model ajkula("resources/objects/ajkula/scene.gltf");
+    ajkula.SetShaderTextureNamePrefix("material.");
+
+    Model podmornica("resources/objects/podmornica/scene.gltf");
+    podmornica.SetShaderTextureNamePrefix("material.");
+
+    Model ronilac("resources/objects/ronilac/source/scubadiverposedexportobj/sczbadiver.obj");
+    ronilac.SetShaderTextureNamePrefix("material.");
+
+    Model kornjaca("resources/objects/kornjaca/scene.gltf");
+    kornjaca.SetShaderTextureNamePrefix("material.");
+
+    Model ourModel("resources/objects/ribaSaSvetlom/scene.gltf");
     ourModel.SetShaderTextureNamePrefix("material.");
 
     PointLight& pointLight = programState->pointLight;
-    pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
+    pointLight.position = glm::vec3(0.008582f, 0.206790f, -0.941859f);
     pointLight.ambient = glm::vec3(0.1, 0.1, 0.1);
     pointLight.diffuse = glm::vec3(0.6, 0.6, 0.6);
     pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
@@ -298,7 +314,7 @@ int main() {
 
         // don't forget to enable shader before setting uniforms
         ourShader.use();
-        pointLight.position = glm::vec3(4.0 * cos(currentFrame), 4.0f, 4.0 * sin(currentFrame));
+        //pointLight.position = glm::vec3(4.0 * cos(currentFrame), 4.0f, 4.0 * sin(currentFrame));
         ourShader.setVec3("pointLight.position", pointLight.position);
         ourShader.setVec3("pointLight.ambient", pointLight.ambient);
         ourShader.setVec3("pointLight.diffuse", pointLight.diffuse);
@@ -329,7 +345,14 @@ int main() {
                                programState->backpackPosition); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(programState->backpackScale));    // it's a bit too big for our scene, so scale it down
         ourShader.setMat4("model", model);
+        glDisable(GL_CULL_FACE);
         ourModel.Draw(ourShader);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+
+        //model=glm::mat4(1.0f);
+        //model = glm::translate(model,
+        //                       programState->backpackPosition); // translate it down so it's at the center of the scene
 
         // drawing skybox
         glCullFace(GL_BACK);
@@ -478,7 +501,7 @@ unsigned int loadCubemap(vector<std::string>& faces){
         if(data) {
             glTexImage2D(
                     GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                    0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data); //GL_RBGA, ako je png
+                    0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data); //GL_RBGA, ako je png
         }else{
             std::cerr << "Failed to load cubemap face at path: " << faces[i] << '\n';
         }
