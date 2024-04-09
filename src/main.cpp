@@ -409,7 +409,7 @@ int main() {
         ourShader.setMat4("model", model);
         kornjaca.Draw(ourShader);
 
-
+        //drawing diver
 
 
         // drawing skybox
