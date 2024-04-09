@@ -66,8 +66,25 @@ struct ProgramState {
     bool ImGuiEnabled = false;
     Camera camera;
     bool CameraMouseMovementUpdateEnabled = true;
-    glm::vec3 backpackPosition = glm::vec3(0.0f);
-    float backpackScale = 0.5f;
+
+    //position
+
+    glm::vec3 ribaPosition = glm::vec3(0.0f);
+    glm::vec3 ajkulaPosition=glm::vec3(5.0f, 30.0f, 5.0f);
+    glm::vec3 kornjacaPosition=glm::vec3(10.0f, 15.0f, 7.0f);
+    glm::vec3 ronilacPosition=glm::vec3(-30.0f, 10.0f, 5.0f);
+    glm::vec3 podmornicaPosition=glm::vec3(-50.0f,20.0f,-10.0f);
+
+
+    //scaling
+
+    float ribaScale = 4.0f;
+    float ajkulaScale=13.0f;
+    float kornjacaScale=7.0f;
+    float ronilacScale=70.0f;
+    float podmornicaScale=5.0f;
+
+
     PointLight pointLight;
     DirLight dirLight;
     ProgramState()
@@ -270,21 +287,21 @@ int main() {
     ourModel.SetShaderTextureNamePrefix("material.");
 
     PointLight& pointLight = programState->pointLight;
-    pointLight.position = glm::vec3(0.008582f, 0.206790f, -0.941859f);
-    pointLight.ambient = glm::vec3(0.1, 0.1, 0.1);
-    pointLight.diffuse = glm::vec3(0.6, 0.6, 0.6);
-    pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
+    pointLight.position = glm::vec3(0.009440f, 1.0f, -3.827519f);
+    pointLight.ambient = glm::vec3(1.0, 0.0, 0.0);
+    pointLight.diffuse = glm::vec3(1.0, 0.0, 0.0);
+    pointLight.specular = glm::vec3(1.0, .0, .0);
 
     pointLight.constant = 1.0f;
-    pointLight.linear = 0.09f;
-    pointLight.quadratic = 0.032f;
+    pointLight.linear = 0.7f;
+    pointLight.quadratic = 1.8f;
 
 
     DirLight& dirLight=programState->dirLight;
     dirLight.direction=glm::vec3(0,-1,0);
-    dirLight.ambient=glm::vec3(0.4);
-    dirLight.diffuse=glm::vec3(0.6);
-    dirLight.specular=glm::vec3(0.7);
+    dirLight.ambient=glm::vec3(0.3);
+    dirLight.diffuse=glm::vec3(0.2);
+    dirLight.specular=glm::vec3(0.2);
 
 
 
@@ -314,7 +331,7 @@ int main() {
 
         // don't forget to enable shader before setting uniforms
         ourShader.use();
-        //pointLight.position = glm::vec3(4.0 * cos(currentFrame), 4.0f, 4.0 * sin(currentFrame));
+
         ourShader.setVec3("pointLight.position", pointLight.position);
         ourShader.setVec3("pointLight.ambient", pointLight.ambient);
         ourShader.setVec3("pointLight.diffuse", pointLight.diffuse);
@@ -340,19 +357,60 @@ int main() {
         ourShader.setMat4("view", view);
 
         // render the loaded model
+
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model,
-                               programState->backpackPosition); // translate it down so it's at the center of the scene
-        model = glm::scale(model, glm::vec3(programState->backpackScale));    // it's a bit too big for our scene, so scale it down
+                               programState->ribaPosition); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(programState->ribaScale));    // it's a bit too big for our scene, so scale it down
         ourShader.setMat4("model", model);
         glDisable(GL_CULL_FACE);
         ourModel.Draw(ourShader);
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
 
-        //model=glm::mat4(1.0f);
-        //model = glm::translate(model,
-        //                       programState->backpackPosition); // translate it down so it's at the center of the scene
+
+        //drawing shark
+
+        model=glm::mat4(1.0f);
+
+        model = glm::translate(model,
+                               programState->ajkulaPosition); // translate it down so it's at the center of the scene
+        model=glm::rotate(model,glm::radians(180.0f), glm::vec3(0.0f,1.0f,.0f) );
+        model=glm::rotate(model,glm::radians(90.0f), glm::vec3(0.0f,.0f,1.0f) );
+        model=glm::rotate(model, glm::radians(-30.0f), glm::vec3(1.0f, 1.0f, 0.0f));
+
+        model=glm::scale(model, glm::vec3(programState->ajkulaScale));
+        ourShader.setMat4("model", model);
+        ajkula.Draw(ourShader);
+
+        //drawing submarine
+
+        model=glm::mat4(1.0f);
+
+        model = glm::translate(model,
+                               programState->podmornicaPosition); // translate it down so it's at the center of the scene
+        //model=glm::rotate(model,glm::radians(180.0f), glm::vec3(0.0f,1.0f,.0f) );
+        model=glm::rotate(model,glm::radians(90.0f), glm::vec3(-1.0f,.0f,.0f) );
+
+        model=glm::scale(model, glm::vec3(programState->podmornicaScale));
+        ourShader.setMat4("model", model);
+        podmornica.Draw(ourShader);
+
+        //drawing turtle
+
+        model=glm::mat4(1.0f);
+
+        model = glm::translate(model,
+                               programState->kornjacaPosition); // translate it down so it's at the center of the scene
+        //model=glm::rotate(model,glm::radians(180.0f), glm::vec3(0.0f,1.0f,.0f) );
+        model=glm::rotate(model,glm::radians(90.0f), glm::vec3(-1.0f,.0f,.0f) );
+
+        model=glm::scale(model, glm::vec3(programState->kornjacaScale));
+        ourShader.setMat4("model", model);
+        kornjaca.Draw(ourShader);
+
+
+
 
         // drawing skybox
         glCullFace(GL_BACK);
@@ -452,8 +510,8 @@ void DrawImGui(ProgramState *programState) {
         ImGui::Text("Hello text");
         ImGui::SliderFloat("Float slider", &f, 0.0, 1.0);
         ImGui::ColorEdit3("Background color", (float *) &programState->clearColor);
-        ImGui::DragFloat3("Backpack position", (float*)&programState->backpackPosition);
-        ImGui::DragFloat("Backpack scale", &programState->backpackScale, 0.05, 0.1, 4.0);
+        ImGui::DragFloat3("Backpack position", (float*)&programState->ribaPosition);
+        ImGui::DragFloat("Backpack scale", &programState->ribaScale, 0.05, 0.1, 4.0);
 
         ImGui::DragFloat("pointLight.constant", &programState->pointLight.constant, 0.05, 0.0, 1.0);
         ImGui::DragFloat("pointLight.linear", &programState->pointLight.linear, 0.05, 0.0, 1.0);
