@@ -71,18 +71,18 @@ struct ProgramState {
 
     glm::vec3 ribaPosition = glm::vec3(0.0f);
     glm::vec3 ajkulaPosition=glm::vec3(5.0f, 30.0f, 5.0f);
-    glm::vec3 kornjacaPosition=glm::vec3(10.0f, 15.0f, 7.0f);
-    glm::vec3 ronilacPosition=glm::vec3(-30.0f, 10.0f, 5.0f);
-    glm::vec3 podmornicaPosition=glm::vec3(-50.0f,20.0f,-10.0f);
+    glm::vec3 kornjacaPosition=glm::vec3(30.0f, 20.0f, 7.0f);
+    glm::vec3 ronilacPosition=glm::vec3(-50.0f, 7.0f, 5.0f);
+    glm::vec3 podmornicaPosition=glm::vec3(-80.0f,35.0f,-10.0f);
 
 
     //scaling
 
-    float ribaScale = 4.0f;
-    float ajkulaScale=13.0f;
-    float kornjacaScale=7.0f;
-    float ronilacScale=70.0f;
-    float podmornicaScale=5.0f;
+    float ribaScale = 5.0f;
+    float ajkulaScale=14.0f;
+    float kornjacaScale=5.0f;
+    float ronilacScale=2.0f;
+    float podmornicaScale=8.0f;
 
 
     PointLight pointLight;
@@ -277,7 +277,7 @@ int main() {
     Model podmornica("resources/objects/podmornica/scene.gltf");
     podmornica.SetShaderTextureNamePrefix("material.");
 
-    Model ronilac("resources/objects/ronilac/source/scubadiverposedexportobj/sczbadiver.obj");
+    Model ronilac("resources/objects/diver/scene.gltf");
     ronilac.SetShaderTextureNamePrefix("material.");
 
     Model kornjaca("resources/objects/kornjaca/scene.gltf");
@@ -286,8 +286,10 @@ int main() {
     Model ourModel("resources/objects/ribaSaSvetlom/scene.gltf");
     ourModel.SetShaderTextureNamePrefix("material.");
 
+    //ribino svetlo
+
     PointLight& pointLight = programState->pointLight;
-    pointLight.position = glm::vec3(0.009440f, 1.0f, -3.827519f);
+    pointLight.position = glm::vec3(-4.720209f, 1.040291f, -0.022484f);
     pointLight.ambient = glm::vec3(1.0, 0.0, 0.0);
     pointLight.diffuse = glm::vec3(1.0, 0.0, 0.0);
     pointLight.specular = glm::vec3(1.0, .0, .0);
@@ -299,7 +301,7 @@ int main() {
 
     DirLight& dirLight=programState->dirLight;
     dirLight.direction=glm::vec3(0,-1,0);
-    dirLight.ambient=glm::vec3(0.3);
+    dirLight.ambient=glm::vec3(0.4);
     dirLight.diffuse=glm::vec3(0.2);
     dirLight.specular=glm::vec3(0.2);
 
@@ -361,6 +363,8 @@ int main() {
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model,
                                programState->ribaPosition); // translate it down so it's at the center of the scene
+        model=glm::rotate(model, glm::radians(90.0f), glm::vec3(.0f, 1.0f, .0f));
+
         model = glm::scale(model, glm::vec3(programState->ribaScale));    // it's a bit too big for our scene, so scale it down
         ourShader.setMat4("model", model);
         glDisable(GL_CULL_FACE);
@@ -389,7 +393,7 @@ int main() {
 
         model = glm::translate(model,
                                programState->podmornicaPosition); // translate it down so it's at the center of the scene
-        //model=glm::rotate(model,glm::radians(180.0f), glm::vec3(0.0f,1.0f,.0f) );
+        model=glm::rotate(model,glm::radians(-7.5f), glm::vec3(0.0f,.0f,1.0f) );
         model=glm::rotate(model,glm::radians(90.0f), glm::vec3(-1.0f,.0f,.0f) );
 
         model=glm::scale(model, glm::vec3(programState->podmornicaScale));
@@ -409,8 +413,19 @@ int main() {
         ourShader.setMat4("model", model);
         kornjaca.Draw(ourShader);
 
+
         //drawing diver
 
+        model=glm::mat4(1.0f);
+
+        model = glm::translate(model,
+                               programState->ronilacPosition); // translate it down so it's at the center of the scene
+        model=glm::rotate(model,glm::radians(-90.0f), glm::vec3(0.0f,1.0f,.0f) );
+        //model=glm::rotate(model,glm::radians(90.0f), glm::vec3(-1.0f,.0f,.0f) );
+
+        model=glm::scale(model, glm::vec3(programState->ronilacScale));
+        ourShader.setMat4("model", model);
+        ronilac.Draw(ourShader);
 
         // drawing skybox
         glCullFace(GL_BACK);
