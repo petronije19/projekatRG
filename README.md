@@ -1,15 +1,31 @@
-<<<<<<< HEAD
-# projekatRG
-=======
-# project_base
-Prazan projekat sa pratećim bibliotekama koje koristimo na času. 
+# Projekat iz računarske grafike 
+ 
+U projektu je implementirano:
 
-# Uputstvo
-1. `git clone https://github.com/matf-racunarska-grafika/project_base.git`
-2. CLion -> Open -> path/to/my/project_base
-3. Main se nalazi u src/main.cpp
-4. Cpp fajlovi idu u src folder
-5. Zaglavlja (h i hpp) fajlovi idu u include
-6. Šejderi idu u folder shaders. `Vertex shader` ima ekstenziju `.vs`, `fragment shader` ima ekstenziju `.fs`
-7. ALT+SHIFT+F10 -> project_base -> run
->>>>>>> 94388d7 (Pocetak)
+  - Obavezni deo
+
+  - Model
+
+  - Cubemaps (grupa A)
+
+## Modeli
+
+Svi modeli preuzeti su sa sajta:
+  - https://sketchfab.com
+
+  Linkovi ka modelima:
+    1. Riba grdobina: 
+        - https://sketchfab.com/3d-models/monster-hunter-33-ultimate-fanartmod-gobul-a2b0df80fe15432fb27838c4c5aa8ba4
+    2. Ajkula:
+        - https://sketchfab.com/3d-models/model-9a-blacktip-shark-3bdfcf9c47134d4b9dc9888963622be9
+    3. Ronilac:
+        - https://sketchfab.com/3d-models/diver-9ee9b8b722ed457da424869cd8d08b1a
+    4. Morska kornjača:
+        - https://sketchfab.com/3d-models/sea-turtle-b513759c230c4595aee10e660635ed12
+    5. Podmornica:
+        - https://sketchfab.com/3d-models/submarine-e55fa485c92949818b1f10adf1fc3c73
+
+## Uputstvo
+
+WASD i miš - kamera
+
