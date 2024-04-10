@@ -277,7 +277,7 @@ int main() {
     Model podmornica("resources/objects/podmornica/scene.gltf");
     podmornica.SetShaderTextureNamePrefix("material.");
 
-    Model ronilac("resources/objects/diver/scene.gltf");
+    Model ronilac("resources/objects/ronilac/scene.gltf");
     ronilac.SetShaderTextureNamePrefix("material.");
 
     Model kornjaca("resources/objects/kornjaca/scene.gltf");
